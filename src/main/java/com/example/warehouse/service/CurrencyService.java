@@ -14,15 +14,6 @@ import java.util.Optional;
 public class CurrencyService {
     private final CurrencyRepository repo;
 
-    public List<Currency> getAll() {
-        return repo.findAll();
-    }
-
-    public Currency get(Long id) {
-        Optional<Currency> byId = repo.findById(id);
-        return byId.orElseGet(Currency::new);
-    }
-
     public Result add(Currency dto) {
         if (repo.existsByName(dto.getName()))
             return Result.builder()
@@ -33,7 +24,7 @@ public class CurrencyService {
         repo.save(new Currency(dto.getName(), true));
 
         return Result.builder()
-                .message("the currency has successfully edited")
+                .message("the currency has successfully added")
                 .status(true)
                 .build();
     }

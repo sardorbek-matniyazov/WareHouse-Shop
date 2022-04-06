@@ -38,15 +38,6 @@ public class CategoryService {
                 .build();
     }
 
-    public List<Category> getAll() {
-        return repo.findAll();
-    }
-
-    public Category get(Long id) {
-        Optional<Category> byId = repo.findById(id);
-        return byId.orElseGet(Category::new);
-    }
-
     public Result edit(Long id, CategoryDto dto) {
         if (!repo.existsById(id)) return Result.builder()
                 .message("there is not any category")
@@ -81,7 +72,6 @@ public class CategoryService {
         try {
             repo.deleteById(id);
         } catch (Exception e) {
-            e.printStackTrace();
             return Result.builder()
                     .message("you can't delete , cause of there have many active products ")
                     .status(false)

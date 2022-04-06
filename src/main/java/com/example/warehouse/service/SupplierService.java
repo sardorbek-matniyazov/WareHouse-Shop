@@ -14,15 +14,6 @@ import java.util.Optional;
 public class SupplierService {
     private final SupplierRepository repo;
 
-    public List<Supplier> getAll() {
-        return repo.findAll();
-    }
-
-    public Supplier get(Long id) {
-        Optional<Supplier> byId = repo.findById(id);
-        return byId.orElseGet(Supplier::new);
-    }
-
     public Result add(Supplier dto) {
         if (repo.existsByPhoneNumber(dto.getPhoneNumber()))
             return Result.builder()

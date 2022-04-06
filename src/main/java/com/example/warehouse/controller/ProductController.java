@@ -1,14 +1,19 @@
 package com.example.warehouse.controller;
 
-import com.example.warehouse.entity.Product;
 import com.example.warehouse.payload.ProductDto;
 import com.example.warehouse.payload.Result;
 import com.example.warehouse.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import javax.validation.Valid;
+import java.util.Map;
+
+import static com.example.warehouse.controller.CategoryController.handleValidationExceptions;
 
 @RestController
 @RequestMapping(value = "/product")
@@ -16,33 +21,31 @@ import java.util.List;
 public class ProductController {
     private final ProductService service;
 
-    @GetMapping(value = "/all")
-    public List<Product> getAll(){
-        return service.getAll();
-    }
-
-    @GetMapping(value = "/{id}")
-    public Product get(@PathVariable Long id){
-        return service.get(id);
-    }
-
-    @GetMapping(value = "getPhoto/{id}")
-    public void getPhoto(HttpServletResponse response, @PathVariable Long id){
-        service.getPhoto(response, id);
-    }
-
     @PostMapping(value = "/add")
-    public Result add(@RequestBody ProductDto dto){
-        return service.add(dto);
+    public HttpEntity<Result> add(@Valid @RequestBody ProductDto dto){
+        Result add = service.add(dto);
+        return add.isStatus() ? ResponseEntity.ok(add):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(add);
     }
 
     @PutMapping(value = "/{id}")
-    public Result edit(@RequestBody ProductDto dto, @PathVariable Long id){
-        return service.edit(id, dto);
+    public HttpEntity<Result> edit(@PathVariable Long id,@Valid @RequestBody ProductDto dto){
+        Result edit = service.edit(id, dto);
+        return edit.isStatus() ? ResponseEntity.ok(edit):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(edit);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public Result delete(@PathVariable Long id){
-        return service.delete(id);
+    @DeleteMapping(value = "{id}")
+    public HttpEntity<Result> delete(@PathVariable Long id){
+        Result delete = service.delete(id);
+        return delete.isStatus() ? ResponseEntity.ok(delete):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(delete);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> getException(
+            MethodArgumentNotValidException ex) {
+        return handleValidationExceptions(ex);
     }
 }

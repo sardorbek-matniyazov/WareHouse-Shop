@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -20,15 +19,6 @@ import java.util.Set;
 public class UserService {
     private final UserRepository repo;
     private final WarehouseRepository warehouseRepository;
-
-    public List<Users> getAll() {
-        return repo.findAll();
-    }
-
-    public Users get(Long id) {
-        Optional<Users> byId = repo.findById(id);
-        return byId.orElseGet(Users::new);
-    }
 
     public Result add(UserDto dto) {
         if (repo.existsByPhoneNumber(dto.getNumber()))

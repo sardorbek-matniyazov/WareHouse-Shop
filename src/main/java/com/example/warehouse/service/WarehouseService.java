@@ -6,22 +6,11 @@ import com.example.warehouse.repository.WarehouseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class WarehouseService {
     private final WarehouseRepository repo;
-
-    public List<Warehouse> getAll() {
-        return repo.findAll();
-    }
-
-    public Warehouse get(Long id) {
-        Optional<Warehouse> byId = repo.findById(id);
-        return byId.orElseGet(Warehouse::new);
-    }
 
     public Result add(Warehouse dto) {
         if (repo.existsByName(dto.getName()))

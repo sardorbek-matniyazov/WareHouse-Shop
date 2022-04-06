@@ -6,7 +6,6 @@ import com.example.warehouse.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,15 +13,6 @@ import java.util.Optional;
 public class ClientService {
     private final ClientRepository repo;
 
-
-    public List<Client> getAll() {
-        return repo.findAll();
-    }
-
-    public Client get(Long id) {
-        Optional<Client> byId = repo.findById(id);
-        return byId.orElseGet(Client::new);
-    }
 
     public Result add(Client dto) {
         if (repo.existsByNumber(dto.getNumber()))

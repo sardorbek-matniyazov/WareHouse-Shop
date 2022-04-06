@@ -24,15 +24,6 @@ public class ProductService {
     private final AttachmentContentRepository contentRepository;
     private final MeasurementRepository measurementRepo;
 
-    public List<Product> getAll() {
-        return repo.findAll();
-    }
-
-    public Product get(Long id) {
-        Optional<Product> byId = repo.findById(id);
-        return byId.orElseGet(Product::new);
-    }
-
     public Result add(ProductDto dto) {
         if (!categoryRepo.existsById(dto.getCategoryId()))
             return Result.builder()

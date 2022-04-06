@@ -1,6 +1,5 @@
 package com.example.warehouse.service;
 
-import com.example.warehouse.entity.InProduct;
 import com.example.warehouse.entity.OutProduct;
 import com.example.warehouse.entity.Output;
 import com.example.warehouse.payload.ForListProduct;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,15 +22,6 @@ public class OutputService {
     private final ClientRepository clientRepository;
     private final CurrencyRepository currencyRepository;
     private final ProductRepository productRepository;
-
-    public List<Output> getAll() {
-        return repo.findAll();
-    }
-
-    public Output get(Long id) {
-        Optional<Output> byId = repo.findById(id);
-        return byId.orElseGet(Output::new);
-    }
 
     public Result add(OutputDto dto) {
         if (
@@ -197,14 +186,5 @@ public class OutputService {
                 .message("the history has successfully deleted")
                 .status(true)
                 .build();
-    }
-
-    public List<OutProduct> getProducts(Long id) {
-        Optional<Output> byId = repo.findById(id);
-        if (byId.isPresent()){
-            Output output = byId.get();
-            return outProductRepository.findAllByOutputId(id);
-        }
-        return null;
     }
 }

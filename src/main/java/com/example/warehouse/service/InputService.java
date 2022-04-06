@@ -24,15 +24,6 @@ public class InputService {
     private final CurrencyRepository currencyRepository;
     private final ProductRepository productRepository;
 
-    public List<Input> getAll() {
-        return repo.findAll();
-    }
-
-    public Input get(Long id) {
-        Optional<Input> byId = repo.findById(id);
-        return byId.orElseGet(Input::new);
-    }
-
     public Result add(InputDto dto) {
         if (
                 dto.getCurrencyId() == null ||

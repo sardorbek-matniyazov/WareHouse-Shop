@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     username: postgres
-    url: jdbc:postgresql://localhost:5432/test
+    url: jdbc:postgresql://localhost:5432/console
     password: sardor
   jpa:
     hibernate:

@@ -15,15 +15,6 @@ public class MeasurementService {
 
     private final MeasurementRepository repo;
 
-    public List<Measurement> getAll() {
-        return repo.findAll();
-    }
-
-    public Measurement get(Long id) {
-        Optional<Measurement> byId = repo.findById(id);
-        return byId.orElseGet(Measurement::new);
-    }
-
     public Result add(Measurement measurement) {
         if (repo.existsByName(measurement.getName())){
             return Result.builder()

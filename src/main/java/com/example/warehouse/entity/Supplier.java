@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 @EqualsAndHashCode(callSuper = true)
 @Getter
@@ -25,6 +26,7 @@ public class Supplier extends AbstractEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    @NotNull(message = "Phone number cannot be null")
     @Column(unique = true, nullable = false)
     private String phoneNumber;
 }
